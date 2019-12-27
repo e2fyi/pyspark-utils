@@ -1,0 +1,25 @@
+sudo: true
+language: python
+matrix:
+  include:
+  - python: 3.6
+  - python: 3.7
+cache: pip
+install:
+- pip install -r requirements-dev.txt
+- python setup.py install
+script:
+- python test.py
+- coveralls
+before_deploy:
+- python setup.py sdist bdist_wheel
+deploy:
+  provider: pypi
+  user: __token__
+  skip_existing: true
+  on:
+    tags: true
+    branch: master
+    distributions: sdist bdist_wheel
+  password:
+    secure: im98Hnqua4oNCTyml/sZ0OBorMjqjOzzlxsZcEtAOnOR8aA2NaDAd3CUxqDbjbLduUeRp2s1VuSoRpvqrT8mbbpCyB24PrUU9h2WNOz49V0ZXRr2qoAy/IKr0EHBTx/GMMPq03AbCKQrFwc9kLfplE1/aGx7RWvXoQEjFUIhM7FVMV0HC9HKzfS3TeBN3kNyuyJxUjqc2J0Wrbq4o4Lxt2adFnPXOq+y0mwSaXv5i/r2ix8tUM8lebc8lvpZNV7b1SZRYVM1onmCgWhZhbsaHuCRqEjT733AQR2aZvQLRIZelfQqQ6nKTraO62EBAGI3gmq8jEwt0CJc83yLSvr2iZcXbKy0twhzuW46WgpZv+weh2oH9zwy6O/BIWba3qfUDfLpj4L68gz8asgLIEuuz/tGR5+Cs/h+gMAZmLw+OkrppMLjupnMCwB8p1aSSWe3AHiwYsxCZugXwsqnbjHoj5k3MZ6EcSsA/eR1CBh690aTU+MMKVpQj1XoVXbrhWCzjS0GDJu9n/yyDi+WoXbY8m+VXwjugYr6wpFL7VeZ/ju0ifMTERwobKi7fqpm3Tz7iDTp6E2fQLxUzrX4/0dUIgHEu0Ub445v+XQCU6Gi3KBRrat/KP/gp4Eqkh3blDMUax7HxHrBoreh+VFycrjPTOqqZftJSU2Zt3QcnOm4HgM=
